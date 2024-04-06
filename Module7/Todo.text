@@ -1,0 +1,8 @@
+Push Code to Docker hub
+docker login
+docker tag your-company-website your-dockerhub-username/your-company-website
+docker push your-dockerhub-username/your-company-website
+
+Create swarm and volume
+docker service create --name your-company-website --replicas 3 --publish 80:80 --mount type=volume,source=your-volume-name,target=/usr/local/apache2/htdocs your-dockerhub-username/your-company-website
+
