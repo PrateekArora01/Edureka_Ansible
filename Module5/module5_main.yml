@@ -1,6 +1,6 @@
 ---
-- name: Install and configure Apache Tomcat
-  hosts: localhost
+- name: Install and configure Apache Tomcat && Apache Maven
+  hosts: all
   become: yes
   roles:
     - apache_tomcat

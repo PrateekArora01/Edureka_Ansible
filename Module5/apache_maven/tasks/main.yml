@@ -2,11 +2,10 @@
 # tasks file for Apache_maven
 - name: Install required packages
   apt:
-    name: "{{ item }}"
+    name: 
+     - software-properties-common
+     - default-jdk
     state: present
-  with_items:
-    - python-software-properties
-    - default-jdk
 
 - name: Add Oracle Java PPA
   apt_repository:

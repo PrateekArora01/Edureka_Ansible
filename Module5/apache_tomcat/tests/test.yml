@@ -1,5 +1,5 @@
 ---
 - hosts: localhost
-  remote_user: root
+  become: yes
   roles:
-    - Apache_tomcat
+    - apache_tomcat
