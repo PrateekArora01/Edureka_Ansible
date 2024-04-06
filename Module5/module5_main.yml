@@ -1,6 +1,6 @@
 ---
 - name: Install and configure Apache Tomcat
-  hosts: your_target_hosts
+  hosts: localhost
   become: yes
   roles:
     - apache_tomcat
