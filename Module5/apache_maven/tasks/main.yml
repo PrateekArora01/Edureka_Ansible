@@ -1,0 +1,35 @@
+---
+# tasks file for Apache_maven
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-software-properties
+    - default-jdk
+
+- name: Add Oracle Java PPA
+  apt_repository:
+    repo: "ppa:webupd8team/java"
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Download Apache Maven
+  get_url:
+    url: "{{ maven_download_url }}"
+    dest: "/home/edureka/Downloads/apache-maven-{{ maven_version }}-bin.tar.gz"
+
+- name: Extract Apache Maven
+  unarchive:
+    src: "/home/edureka/Downloads/apache-maven-{{ maven_version }}-bin.tar.gz"
+    dest: "{{ maven_install_dir }}"
+    remote_src: yes
+
+- name: Create symlink for Maven
+  file:
+    src: "{{ maven_bin_path }}/mvn"
+    dest: "{{ maven_symlink_path }}"
+    state: link
+    force: yes

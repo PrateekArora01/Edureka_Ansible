@@ -1,0 +1,60 @@
+---
+# tasks file for Apache_tomcat
+
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - default-jdk
+    - curl
+
+- name: Create tomcat group
+  group:
+    name: "{{ tomcat_group }}"
+
+- name: Create tomcat user
+  user:
+    name: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    shell: /bin/false
+    home: "{{ tomcat_install_dir }}"
+
+- name: Download Apache Tomcat
+  get_url:
+    url: "{{ tomcat_download_url }}"
+    dest: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+
+- name: Extract Apache Tomcat
+  unarchive:
+    src: "/tmp/apache-tomcat-{{ tomcat_version }}.tar.gz"
+    dest: "{{ tomcat_install_dir }}"
+    remote_src: yes
+    extra_opts: [--strip-components=1]
+
+- name: Set ownership and permissions
+  file:
+    path: "{{ tomcat_install_dir }}"
+    state: directory
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_group }}"
+    mode: "0755"
+    recurse: yes
+
+- name: Copy Tomcat service file
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat.service
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Reload systemd daemon
+  systemd:
+    daemon_reload: yes
+
+- name: Start Tomcat service
+  service:
+    name: tomcat
+    state: started
+    enabled: yes

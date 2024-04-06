@@ -1,0 +1,7 @@
+---
+- name: Install and configure Apache Tomcat
+  hosts: your_target_hosts
+  become: yes
+  roles:
+    - apache_tomcat
+    - apache_maven
