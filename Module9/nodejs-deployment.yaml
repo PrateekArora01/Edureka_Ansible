@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: nodejs-container
-          image: <your-nodejs-image>:<tag>
+          image: devopsedu/employee
           ports:
             - containerPort: 8888
           env:
