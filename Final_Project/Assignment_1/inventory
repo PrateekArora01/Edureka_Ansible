@@ -1,0 +1,1 @@
+slave-node ansible_host=10.119.83.50 ansible_user=ubuntu
